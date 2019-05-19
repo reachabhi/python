@@ -4,7 +4,7 @@ finals = [98, 89, 53]
 students = ['dan', 'ang', 'kate']
 
 student_grades = list(zip(students, finals, midterms))
-pdb.set_trace()
+pdb.set_trace() #kind of breakpoint so it enters debugging mode now
 zip_finmidterm = zip(finals,midterms)
 
 print(student_grades)
