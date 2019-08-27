@@ -1,0 +1,27 @@
+{
+ "userDetails": {
+   "firstName": "user1",
+   "lastName": "multi-sub",
+   "email": "tscdevuser+abhi10@gmail.com",
+   "companyName": "TIBCO",
+   "phone": "123456789",
+   "state": "",
+   "country": "India"
+ },
+ "accountId": "01BM6C9ESAW0R8MQEDZQY5RB87",
+ "subscriptionId": "01BMC12598FG5JQGVSJ5YY5JNM",
+ "tenantSubscriptionDetails": [
+   {
+     "tenantId": "TCI",
+     "planId": "TIB_CLD_TCI_PAID_ENTERPRISE_NEW",
+     "seats": {
+       "TCI": 12
+     },
+     "region":"vagrant",
+     "expiryInMonths": 1,
+     "eula": true
+   }
+ ],
+ "skipEmail": false,
+ "createTAAccount": true
+}

@@ -1,0 +1,140 @@
+{
+    "name": "flogo",
+    "description": " ",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.0.0",
+    "resources": [
+        {
+            "id": "flow:r_GET",
+            "data": {
+                "name": "r_GET",
+                "description": "",
+                "tasks": [
+                    {
+                        "id": "InvokeRESTService",
+                        "name": "InvokeRESTService",
+                        "activity": {
+                            "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/rest",
+                            "settings": {},
+                            "input": {
+                                "Method": "GET",
+                                "Uri": "http://localserver.tibco.com:8001/userPayload.json",
+                                "requestType": "application/json",
+                                "responseType": "application/json",
+                                "Use certificate for verification": false,
+                                "Server Certificate": "",
+                                "headers": {
+                                    "metadata": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                    "value": "",
+                                    "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                                }
+                            },
+                            "output": {
+                                "responseBody": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"op\":{\"type\":\"string\"}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"op\":\"\"}"
+                                },
+                                "headers": {
+                                    "metadata": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                    "value": "",
+                                    "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReplyToHTTPMessage",
+                        "name": "ReplyToHTTPMessage",
+                        "activity": {
+                            "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+                            "settings": {},
+                            "input": {
+                                "Reply": "Success with Data",
+                                "code": 200,
+                                "message": "Ok",
+                                "data": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"endpoint\":{\"type\":\"string\"}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"endpoint\":\"\"}"
+                                }
+                            },
+                            "output": {},
+                            "mappings": {
+                                "input": [
+                                    {
+                                        "mapTo": "$INPUT['data']['endpoint']",
+                                        "type": "expression",
+                                        "value": "utility.renderJSON($activity[InvokeRESTService].responseBody, boolean.false())"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "InvokeRESTService",
+                        "to": "ReplyToHTTPMessage",
+                        "type": "default"
+                    }
+                ],
+                "metadata": {
+                    "input": [],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "",
+                        "output": ""
+                    }
+                },
+                "explicitReply": true
+            }
+        }
+    ],
+    "triggers": [
+        {
+            "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
+            "name": "ReceiveHTTPMessage",
+            "description": "",
+            "settings": {
+                "port": 9999
+            },
+            "id": "ReceiveHTTPMessage",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "GET",
+                        "Path": "/endpoint",
+                        "OutputValidation": false
+                    },
+                    "outputs": {
+                        "headers": {
+                            "metadata": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                            "value": "",
+                            "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                        }
+                    },
+                    "action": {
+                        "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+                        "data": {
+                            "flowURI": "res://flow:r_GET"
+                        },
+                        "mappings": {
+                            "input": [],
+                            "output": []
+                        }
+                    },
+                    "reply": {
+                        "code": 200
+                    }
+                }
+            ]
+        }
+    ],
+    "properties": [],
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9XQ==",
+    "fe_metadata": "UEsDBAoAAAAIAG1qg04R2AOTHAAAABoAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayilYqind3DVGKrQUAUEsBAhQACgAAAAgAbWqDThHYA5McAAAAGgAAAAgAAAAAAAAAAAAAAAAAAAAAAGFwcC5qc29uUEsFBgAAAAABAAEANgAAAEIAAAAAAA=="
+}

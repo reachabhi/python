@@ -3,7 +3,7 @@ class User:
 	active_users = 0
 
 	@classmethod
-	def display_active_users(cls):  #similar to selffor instance methods, we have cls for class methods
+	def display_active_users(cls):  #similar to self for instance methods, we have cls for class methods
 		return f"There are currently {cls.active_users} active users"
 
 	@classmethod

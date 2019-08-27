@@ -12,4 +12,10 @@ def add_user(first_name,last_name):
     with open('users.csv', 'a') as f:
         csv_writer = writer(f)
         csv_writer.writerow([first_name,last_name])
+def read_user():
+    with open('users.csv') as f:
+        data = reader(f)
+        for row in data:
+            print(row)
+
         
